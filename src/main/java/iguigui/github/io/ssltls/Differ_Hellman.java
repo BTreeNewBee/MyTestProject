@@ -27,7 +27,7 @@ class Alice {
     // 原根：首先定义一个素数p的原根，为其各次幂产生从1 到p-1的所有整数根，也就是说，如果g是素数p的一个原根，那么数值
     //                  g mod p, g^2 mod p,…,g^p-1 mod p
     //是各不相同的整数，并且以某种排列方式组成了从1到p-1的所有整数。
-    public int g = 5 ,p = 97;
+    public int g = 5, p = 97;
 
     //私密参数，此处每次实例化时随机选择，0-100
     private int a = (int) (Math.random() * 100);
@@ -35,15 +35,18 @@ class Alice {
 
     //最终协商出来的密钥
     private int K;
+
     //计算 g^a mod p
     //因为会溢出，用BigDecimal计算
     public int getA() {
         return BigDecimal.valueOf(g).pow(a).divideAndRemainder(BigDecimal.valueOf(p))[1].intValue();
     }
+
     //接收B，计算出A
     public void receiveB(int B) {
         K = BigDecimal.valueOf(B).pow(a).divideAndRemainder(BigDecimal.valueOf(p))[1].intValue();
     }
+
     //打印输出最终协商的密钥K
     public void printK() {
         System.out.println(K);
@@ -58,13 +61,15 @@ class Bob {
 
     //最终协商出来的密钥
     private int K;
+
     //接收Alice的三个参数，g p A ，计算返回B，同时把K存起来
     //计算 A^b mod p 得到K
     //计算 g^b mod p 返回B
-    public int getB(int g , int p,int A) {
+    public int getB(int g, int p, int A) {
         K = BigDecimal.valueOf(A).pow(b).divideAndRemainder(BigDecimal.valueOf(p))[1].intValue();
         return BigDecimal.valueOf(g).pow(b).divideAndRemainder(BigDecimal.valueOf(p))[1].intValue();
     }
+
     //打印输出最终协商的密钥K
     public void printK() {
         System.out.println(K);
