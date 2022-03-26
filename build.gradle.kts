@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
+    id("org.springframework.boot") version "2.4.0-SNAPSHOT"
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
 }
 
 group = "com.iguigui"
@@ -10,12 +12,17 @@ version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
     implementation("org.projectlombok:lombok:1.18.20")
     implementation("com.alibaba:easyexcel:3.0.5")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.jsoup:jsoup:1.14.3")
+    implementation ("cn.hutool:hutool-all:5.7.22")
+    implementation("com.alibaba:fastjson:1.2.79")
 }
 
 
