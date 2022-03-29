@@ -23,6 +23,7 @@ dependencies {
     implementation("org.jsoup:jsoup:1.14.3")
     implementation ("cn.hutool:hutool-all:5.7.22")
     implementation("com.alibaba:fastjson:1.2.79")
+    implementation("top.yumbo.music:yumbo-music-utils:1.2.3")
 }
 
 
