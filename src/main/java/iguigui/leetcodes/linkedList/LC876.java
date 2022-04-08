@@ -3,7 +3,7 @@ package iguigui.leetcodes.linkedList;
 public class LC876 {
     public static void main(String[] args) {
         int[] ints = {1,2,3,4,5,6};
-        ListNode listNode = ListNodeUtil.buildListNode(ints);
+        ListNode listNode = NodeUtil.buildListNode(ints);
         LC876 lc876 = new LC876();
         System.out.println(lc876.middleNode(listNode).val);
     }
