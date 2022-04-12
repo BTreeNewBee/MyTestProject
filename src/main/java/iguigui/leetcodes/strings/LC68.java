@@ -13,15 +13,16 @@ public class LC68 {
         List<String> strings = new ArrayList<>();
 
         List<List<String>> tmp = new ArrayList<>();
+        ArrayList<String> strings1 = new ArrayList<>();
+        int left = maxWidth;
         for (int i = 0; i < words.length; i++) {
             String word = words[i];
-            int left = maxWidth;
-            ArrayList<String> strings1 = new ArrayList<>();
-            if (word.length() < left - 1) {
+            if (word.length() < (left - 1)) {
                 strings1.add(word);
                 left -= (word.length() + 1);
                 continue;
             }
+            i --;
             if (i == word.length() - 1) {
                 for (int j = 0; j < strings1.size() - 1; j++) {
                     strings1.set(j % (strings1.size() - 1),strings1.get(j % (strings1.size() - 1)) + " ");
@@ -33,10 +34,13 @@ public class LC68 {
                 }
             }
             tmp.add(strings1);
+            strings1 = new ArrayList<>();
+            left = maxWidth;
         }
 
 
         for (List<String> stringList : tmp) {
+            System.out.println(stringList);
         }
 
         return strings;
