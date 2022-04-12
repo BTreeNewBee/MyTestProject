@@ -4,7 +4,7 @@ package iguigui.leetcodes.linkedList;
 public class LC206 {
     public static void main(String[] args) {
         int[] ints = {1};
-        System.out.println(new LC206().reverseList(ListNodeUtil.buildListNode(ints)));
+        System.out.println(new LC206().reverseList(NodeUtil.buildListNode(ints)));
     }
 
     public ListNode reverseList(ListNode head) {

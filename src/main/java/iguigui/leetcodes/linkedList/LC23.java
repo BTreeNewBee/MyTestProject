@@ -22,6 +22,51 @@ public class LC23 {
         }
     }
 
+    static class BoundPriorityQueue{
+
+        LinkedList<ListNodeWithIndex> deque = new LinkedList<>();
+
+        int bound;
+
+        public BoundPriorityQueue(int bound) {
+            this.bound = bound;
+        }
+
+        public boolean offer(ListNodeWithIndex node) {
+            System.out.println("offer" + node.listNode);
+            if (deque.size() == 0) {
+                deque.add(node);
+                return true;
+            }
+            if (deque.size() >= bound && node.listNode.val >= deque.peekLast().listNode.val) {
+                return false;
+            }
+            int index = deque.size();
+            for (int i = 0; i < deque.size(); i++) {
+                ListNodeWithIndex listNodeWithIndex = deque.get(i);
+                if (listNodeWithIndex.listNode.val > node.listNode.val) {
+                    index = i;
+                    break;
+                }
+            }
+            deque.add(index,node);
+            if (deque.size() > bound) {
+                deque.pollLast();
+            }
+            return true;
+        }
+
+
+        public ListNodeWithIndex peek() {
+            return deque.peek();
+        }
+
+        public ListNodeWithIndex poll() {
+            return deque.poll();
+        }
+
+    }
+
     public ListNode mergeKLists(ListNode[] lists) {
         //生成头节点，遍历一遍头节点复杂度 k
         int min = Integer.MAX_VALUE;
@@ -42,10 +87,12 @@ public class LC23 {
         ListNode tmpHead = head;
         lists[minIndex] = lists[minIndex].next;
         //最小堆初始化，复杂度k
-        PriorityQueue<ListNodeWithIndex> nodes = new PriorityQueue<>(Comparator.comparingInt(e -> e.listNode.val));
+//        PriorityQueue<ListNodeWithIndex> nodes = new PriorityQueue<>(Comparator.comparingInt(e -> e.listNode.val));
+        BoundPriorityQueue nodes = new BoundPriorityQueue(lists.length);
         for (int i = 0; i < lists.length; i++) {
             if (lists[i] != null) {
-                nodes.add(new ListNodeWithIndex(lists[i],i));
+                System.out.println("init" );
+                nodes.offer(new ListNodeWithIndex(lists[i],i));
                 lists[i] = lists[i].next;
             }
         }
@@ -54,8 +101,7 @@ public class LC23 {
             ListNodeWithIndex poll = nodes.poll();
             head.next = poll.listNode;
             head = head.next;
-            if (lists[poll.index] != null) {
-                nodes.add(new ListNodeWithIndex(lists[poll.index],poll.index));
+            if (lists[poll.index] != null && nodes.offer(new ListNodeWithIndex(lists[poll.index],poll.index))) {
                 lists[poll.index] = lists[poll.index].next;
             }
         }
