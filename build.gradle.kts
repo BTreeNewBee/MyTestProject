@@ -24,6 +24,9 @@ dependencies {
     implementation ("cn.hutool:hutool-all:5.7.22")
     implementation("com.alibaba:fastjson:1.2.79")
     implementation("top.yumbo.music:yumbo-music-utils:1.2.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+    implementation("org.reflections:reflections:0.10.2")
+    implementation( "org.jetbrains.kotlin:kotlin-reflect:1.6.10")
 }
 
 
