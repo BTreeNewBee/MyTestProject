@@ -1,52 +1,76 @@
 package kt.dataclass
 
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
+import kotlinx.serialization.*
+import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.decodeFromString
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.SerializersModuleBuilder
-import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
+
+//@Serializable
+//data class Project(val name: String, @Transient val language: String = "Kotlin")
+
+
 fun main() {
+//    val data = Json.decodeFromString<Project>("""
+//        {"name":"kotlinx.serialization","language":"Kotlin"}
+//    """)
+//    println(data)
+
+
     val memberListRequest = MemberListRequest("1017809249")
-    println(memberListRequest)
-    println(memberListRequest.toJson())
+    printRequest(memberListRequest)
+
 //    val baseRequest = BaseRequest("memberList", MemberListRequestContent("1017809249"),"",123)
 //    println(baseRequest)
+//    BaseRequest(command=memberList, content=MemberListRequestContent(target=1017809249), subCommand=, syncId=123)
 //    println(baseRequest.toJson())
+    //{"command":"memberList","content":{},"subCommand":"","syncId":123}
 }
 
-
-@Serializable
-open class BaseRequest (
-     val command: String,
-     val content: Content,
-     val subCommand: String,
-     val syncId: Int
-): DTO
-
- interface DTO
-
-
-fun BaseRequest.toJson(): String = json.encodeToString(this)
-
-@Serializable
-open class Content
-
-@OptIn(InternalSerializationApi::class)
-private val json by lazy {
-    Json {
-        encodeDefaults = true
-        isLenient = true
-        ignoreUnknownKeys = true
-        @Suppress("UNCHECKED_CAST")
-        serializersModule = SerializersModule {
-            polymorphicSealedClass(DTO::class, MemberListRequest::class)
-        }
-    }
+fun printRequest(baseRequest: BaseRequest) {
+    println(baseRequest)
+    println(baseRequest.toJson())
 }
+
+fun BaseRequest.toJson(): String = Json.encodeToString(this)
+@Serializable
+sealed class Content
+@Serializable
+data class MemberListRequestContent (val target:String) : Content()
+@Serializable
+sealed class BaseRequest (
+    val command: String,
+    val content: MemberListRequestContent,
+    val subCommand: String,
+    val syncId: Int
+)
+@Serializable
+data class MemberListRequest (val target: String) : BaseRequest(
+    command = "memberList",
+    content = MemberListRequestContent(target),
+    subCommand = "",
+    syncId = 123
+)
+
+
+
+
+
+//@OptIn(InternalSerializationApi::class)
+//private val json by lazy {
+//    Json {
+//        encodeDefaults = true
+//        isLenient = true
+//        ignoreUnknownKeys = true
+//        @Suppress("UNCHECKED_CAST")
+//        serializersModule = SerializersModule {
+//            polymorphicSealedClass(DTO::class, MemberListRequest::class)
+//        }
+//    }
+//}
 
 
 
@@ -63,13 +87,3 @@ private fun <B : Any, S : B> SerializersModuleBuilder.polymorphicSealedClass(
 }
 
 
-@Serializable
-data class MemberListRequest (val target: String) : BaseRequest(
-    command = "memberList",
-    content = MemberListRequestContent(target),
-    subCommand = "",
-    syncId = 123
-)
-
-@Serializable
-data class MemberListRequestContent (val target:String) : Content()
