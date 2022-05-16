@@ -1,14 +1,19 @@
 package iguigui.test;
 
 public class Test {
-
     public static void main(String[] args) {
-        byte[] bytes = new byte[]{1,2,3,4};
-        long byteslong = bytes[0] << 8 * 3
-                | bytes[1] << 8 * 2
-                | bytes[2] << 8
-                | bytes[3]  ;
-        System.out.println(byteslong);
+        System.out.println(new 群友().写的什么勾吧代码());
     }
 
+}
+
+class 群友 implements 写代码 {
+    @Override
+    public String 写的什么勾吧代码() {
+        return "写的Jvav";
+    }
+}
+
+interface 写代码 {
+    String 写的什么勾吧代码();
 }

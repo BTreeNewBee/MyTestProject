@@ -27,6 +27,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     implementation("org.reflections:reflections:0.10.2")
     implementation( "org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+    //网易云client
+    implementation("top.yumbo.music:yumbo-music-utils:1.2.3")
+    //JNA
+    implementation("net.java.dev.jna:jna:5.11.0")
 }
 
 
