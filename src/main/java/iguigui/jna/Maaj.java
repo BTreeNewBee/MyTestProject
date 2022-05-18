@@ -53,6 +53,8 @@ public class Maaj {
 
         //向maa注入日志
         void AsstLog(String level, String message);
+
+
     }
 
 
@@ -77,11 +79,10 @@ public class Maaj {
         jsonObject.put("stage", "LastBattle");
         instance.AsstAppendTask(pointer, "Fight", jsonObject.toJSONString());
         instance.AsstStart(pointer);
-        Thread.sleep(1000 * 10);
-        byte[] bytes = new byte[1024 * 1024];
-        long l = instance.AsstGetImage(pointer, bytes, bytes.length);
-        System.out.println(l);
         instance.AsstStop(pointer);
+        instance.AsstDestroy(pointer);
+        boolean b1 = instance.AsstStart(pointer);
+        System.out.println("start " + b1);
         new Scanner(System.in).next();
     }
 
