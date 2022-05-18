@@ -35,6 +35,7 @@ public class Maaj {
 
         //添加任务链
         int AsstAppendTask(Pointer handle, String type, String params);
+
         //运行时修改参数
         boolean AsstSetTaskParams(Pointer handle, int taskId, String params);
 
@@ -45,13 +46,13 @@ public class Maaj {
         boolean AsstStop(Pointer handle);
 
         //获取最后一次截图的内容，PNG格式编码
-        long AsstGetImage(Pointer handle,byte[] buff ,long length);
+        long AsstGetImage(Pointer handle, byte[] buff, long length);
 
         //获取版本号
         String AsstGetVersion();
 
         //向maa注入日志
-        void AsstLog(String level,String message);
+        void AsstLog(String level, String message);
     }
 
 
@@ -76,6 +77,10 @@ public class Maaj {
         jsonObject.put("stage", "LastBattle");
         instance.AsstAppendTask(pointer, "Fight", jsonObject.toJSONString());
         instance.AsstStart(pointer);
+        Thread.sleep(1000 * 10);
+        byte[] bytes = new byte[1024 * 1024];
+        long l = instance.AsstGetImage(pointer, bytes, bytes.length);
+        System.out.println(l);
         instance.AsstStop(pointer);
         new Scanner(System.in).next();
     }
