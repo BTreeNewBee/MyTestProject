@@ -17,7 +17,7 @@ public class Maaj {
             /**
              * Return whether to continue enumeration.
              */
-            void callback(int msg, String detail_json, Pointer custom_arg);
+            void callback(int msg, String detail_json, String custom_arg);
         }
 
         //第一步，加载资源
@@ -26,7 +26,7 @@ public class Maaj {
         //选一个你喜欢的create，搞不定回调就用普通create
         Pointer AsstCreate();
 
-        Pointer AsstCreateEx(AsstApiCallback callback);
+        Pointer AsstCreateEx(AsstApiCallback callback, String custom_arg);
 
         void AsstDestroy(Pointer handle);
 
@@ -61,7 +61,6 @@ public class Maaj {
     public static void main(String[] args) throws Exception {
         String path = "C:\\Users\\atmzx\\Desktop\\MaaBundle-DevBuild-CICD-2c42604-2022-05-15-15-16-46";
         System.setProperty("jna.library.path", path);
-        System.out.println(System.getenv().get("Path"));
         MeoAssistant instance = Native.load("MeoAssistant", MeoAssistant.class);
         System.out.println("获取Maa版本号:" + instance.AsstGetVersion());
         boolean b = instance.AsstLoadResource(path);
@@ -70,8 +69,8 @@ public class Maaj {
         Pointer pointer = instance.AsstCreateEx((msg, detail_json, custom_arg) -> {
             System.out.println("msg =" + msg);
             System.out.println("detail_json =" + detail_json);
-            System.out.println("pointer =" + custom_arg);
-        });
+            System.out.println("custom_arg =" + custom_arg.toString());
+        },"瞎写的参数");
         System.out.println("Maa 创建:" + pointer);
         boolean adb = instance.AsstConnect(pointer, path + "/platform-tools/adb.exe", "127.0.0.1:62001", "");
         System.out.println("Maa 尝试连接:" + adb);
