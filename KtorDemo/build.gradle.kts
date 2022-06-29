@@ -1,10 +1,11 @@
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
+
+val ktor_version = "2.0.1"
+val kotlin_version = "1.6.10"
+val logback_version = "1.2.11"
 
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm")
 }
 
 group = "com.iguigui"
@@ -22,6 +23,7 @@ repositories {
 }
 
 dependencies {
+    implementation("net.java.dev.jna:jna:5.11.0")
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
