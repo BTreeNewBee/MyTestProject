@@ -5,7 +5,6 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
-//试图编写一个maa的Java端调用
 public class Maaj {
 
     // This is the standard, stable way of mapping, which supports extensive
