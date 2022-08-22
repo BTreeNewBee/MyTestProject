@@ -25,7 +25,7 @@ public class LongTest {
             System.out.println(i);
         }
         // --> 趋向于运算符，i会以1为步长抵达目标值
-        while (i --> i) {
+        while (0 <-- i) {
             System.out.println(i);
         }
     }
