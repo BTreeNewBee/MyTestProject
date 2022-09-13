@@ -13,5 +13,3 @@ pluginManagement {
     }
 }
 rootProject.name = "MyTestProject"
-include("processor")
-include("KtorDemo")
