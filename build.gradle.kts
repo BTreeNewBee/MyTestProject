@@ -17,6 +17,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     implementation("org.projectlombok:lombok:1.18.20")
     implementation("com.alibaba:easyexcel:3.0.5")
     implementation("org.springframework.boot:spring-boot-starter-web")
