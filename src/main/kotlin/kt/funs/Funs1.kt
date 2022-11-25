@@ -18,11 +18,25 @@ fun main() {
         else -> 30
     }
 
+    val intRange = 2 until 20
+
+
+    for (i in 2 until 20) {
+
+    }
+
+    for (i in 2 until 20 step 2) {
+
+    }
+
     //只有一个参数可以直接用it
     highLevelFunction(10, { println(it) }) { acc, i -> "$acc $i" }
     val a = A()
     a()
 }
+
+
+fun Int.extFun(b: Int) = this < b
 
 //高阶参数传参
 fun highLevelFunction(age: Int, funs: (name: String) -> Unit, funs1: (name: String, age: Int) -> String) {

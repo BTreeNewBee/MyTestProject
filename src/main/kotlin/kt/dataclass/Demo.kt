@@ -14,20 +14,22 @@ import kotlin.reflect.KClass
 
 
 fun main() {
-//    val data = Json.decodeFromString<Project>("""
-//        {"name":"kotlinx.serialization","language":"Kotlin"}
-//    """)
-//    println(data)
 
+    val list = object : ArrayList<String>() {
+        internal var a = "1"
+        init {
+            add(a)
+            add("2")
+            add2()
+        }
 
-    val memberListRequest = MemberListRequest("1017809249")
-    printRequest(memberListRequest)
+        fun add2() {
+            add("3")
+        }
+    }
 
-//    val baseRequest = BaseRequest("memberList", MemberListRequestContent("1017809249"),"",123)
-//    println(baseRequest)
-//    BaseRequest(command=memberList, content=MemberListRequestContent(target=1017809249), subCommand=, syncId=123)
-//    println(baseRequest.toJson())
-    //{"command":"memberList","content":{},"subCommand":"","syncId":123}
+    println(list.a)
+    println(list.add2())
 }
 
 fun printRequest(baseRequest: BaseRequest) {
@@ -36,27 +38,28 @@ fun printRequest(baseRequest: BaseRequest) {
 }
 
 fun BaseRequest.toJson(): String = Json.encodeToString(this)
+
 @Serializable
 sealed class Content
+
 @Serializable
-data class MemberListRequestContent (val target:String) : Content()
+data class MemberListRequestContent(val target: String) : Content()
+
 @Serializable
-sealed class BaseRequest (
+sealed class BaseRequest(
     val command: String,
     val content: MemberListRequestContent,
     val subCommand: String,
     val syncId: Int
 )
+
 @Serializable
-data class MemberListRequest (val target: String) : BaseRequest(
+data class MemberListRequest(val target: String) : BaseRequest(
     command = "memberList",
     content = MemberListRequestContent(target),
     subCommand = "",
     syncId = 123
 )
-
-
-
 
 
 //@OptIn(InternalSerializationApi::class)
