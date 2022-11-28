@@ -33,6 +33,7 @@ dependencies {
     implementation("top.yumbo.music:yumbo-music-utils:1.2.3")
     //JNA
     implementation("net.java.dev.jna:jna:5.11.0")
+    implementation("org.bytedeco:javacv-platform:1.5.8")
 }
 
 
