@@ -20,25 +20,16 @@ fun main() {
     println(s.javaClass.isAssignableFrom(Comparable::class.java))
 
     val image: BufferedImage = ImageIO.read(
-        File("C:\\bot\\1.png")
+        File("C:\\bot\\template.png")
     )
 
     val g = image.graphics
     g.font = g.font.deriveFont(30f)
+
     g.drawString("测试测试\n我的龟龟123\n我的我的", 100, 100)
 
     g.dispose()
 
     ImageIO.write(image, "png", File("C:\\bot\\2.png"))
-
-
-    val file = "C:\\bot\\1.png"
-    val src: Mat = imread(file)
-    val text = "JavaFX 2D shapes"
-    val position = Point(50, 50)
-    putText(src, text, position, 1, 2.0, Scalar(0.0, 255.0, 0.0, 2.0))
-
-    imwrite("C:\\bot\\3.png", src)
-    println("yes")
 
 }
