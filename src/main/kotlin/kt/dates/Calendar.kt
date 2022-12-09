@@ -9,8 +9,7 @@ fun main() {
         of = of.plusYears(1)
         arrayList.add(of)
     }
-    arrayList
-        .groupBy { it.dayOfWeek.value }
+    arrayList.groupBy { it.dayOfWeek.value }
         .forEach { (t, u) -> println("今年第一天是星期$t : ${u.map { it.year }}") }
 
 }
