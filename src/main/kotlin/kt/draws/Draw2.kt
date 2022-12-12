@@ -28,24 +28,15 @@ fun main() {
             "第9名：真的我宁可听你唱你干嘛哈哈哎哟 ，1条消息"
 
 
-    var strList : List<String> = arrayListOf(
-        "测试测试我测试测试我测试测试",
-        "测试测试我",
-        "测试",
-        "测试测试我",
-        "测试测试我",
-        "123456789",
-        "ABCDIIIILLLiii",
-        "测试测试我测试测试我测试测试",
-        "iiii1111..??``"
-    )
-
-    strList = str.split("\n")
+    var strList : List<String> = str.split("\n")
 
     var fontSize = 80f
-
+////
+//    val deriveFont =
+//        Font.createFont(Font.TRUETYPE_FONT, File("D:\\font\\SourceHanSansHWSC-Regular.otf")).deriveFont(fontSize)
+//    val deriveFont = Font("Mono",Font.BOLD,60)
     val deriveFont =
-        Font.createFont(Font.TRUETYPE_FONT, File("D:\\font\\SourceHanSansHWSC-Regular.otf")).deriveFont(fontSize)
+        Font.createFont(Font.TRUETYPE_FONT, File("D:\\font\\NotoColorEmoji-emojicompat.ttf")).deriveFont(fontSize)
     val fontMetrics = BufferedImage(1, 1, TYPE_INT_RGB).createGraphics().getFontMetrics(deriveFont)
 
     var width = strList.map { it.width(fontMetrics) }.maxByOrNull { it } ?: 0
@@ -68,16 +59,20 @@ fun main() {
     var tmpY = fontSize * 1.5f
     var yStep = fontSize * 1.5f
     strList.forEach {
-        val tl = TextLayout(it, deriveFont, g.fontRenderContext)
-        tl.draw(g, fontSize, tmpY)
-        tmpY += yStep
-//        yStep += 10
+        val toCharArray = it.toCharArray()
+        //check character is emoji
+        toCharArray.forEach { c ->
+
+        }
+
+//        val tl = TextLayout(it, deriveFont, g.fontRenderContext)
+//        tl.draw(g, fontSize, tmpY)
+//        tmpY += yStep
     }
 
     g.dispose()
 
     ImageIO.write(image, "png", File("D:\\bot\\2.png"))
-
 }
 
 
