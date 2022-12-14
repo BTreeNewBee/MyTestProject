@@ -10,6 +10,15 @@ import java.awt.image.BufferedImage.TYPE_INT_RGB
 import java.io.File
 import javax.imageio.ImageIO
 
+import javafx.scene.Group
+import javafx.scene.Scene
+import javafx.scene.image.WritableImage
+import javafx.scene.control.Label
+import javafx.scene.image.Image
+
+// ...
+
+
 
 fun main() {
 
@@ -28,7 +37,7 @@ fun main() {
             "第9名：真的我宁可听你唱你干嘛哈哈哎哟 ，1条消息"
 
 
-    var strList : List<String> = arrayListOf(
+    var strList: List<String> = arrayListOf(
         "测试测试我测试测试我测试测试",
         "测试测试我",
         "测试",
@@ -51,7 +60,6 @@ fun main() {
     var width = strList.map { it.width(fontMetrics) }.maxByOrNull { it } ?: 0
     width += (fontSize * 2f).toInt()
     val height = (strList.size * fontSize * 1.5 + fontSize).toInt()
-
 
 
     var image = BufferedImage(width, height, TYPE_INT_RGB)
@@ -77,6 +85,8 @@ fun main() {
     g.dispose()
 
     ImageIO.write(image, "png", File("D:\\bot\\2.png"))
+
+
 
 }
 

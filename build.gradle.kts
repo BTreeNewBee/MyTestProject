@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.6.10"
     id("org.springframework.boot") version "2.4.0-SNAPSHOT"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
+    id("org.openjfx.javafxplugin") version "0.0.8"
 }
 
 group = "com.iguigui"
@@ -16,6 +17,9 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
+javafx {
+    modules("javafx.controls","javafx.swing")
+}
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
