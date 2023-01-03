@@ -16,20 +16,25 @@ fun main() {
     val browser: Browser = Puppeteer.launch(options)
     val page: Page = browser.newPage()
 //    page.goTo("https://www.baidu.com/?tn=98012088_10_dg&ch=3")
-    page.goTo("D:\\nodejs\\ImageServer\\sort.html")
+    page.goTo("D:\\nodejs\\ImageServer\\sort1.html")
+
+
+    val deviceScaleFactor = 4.0
+
     //set page size
-    page.setViewport(Viewport(500, 800, 1.0, false, false, false))
+    page.setViewport(Viewport(500, 800, deviceScaleFactor, false, false, false))
 
     var height = 240.0
-    height += 40 * 9
+    height += 40 * 6
     height += 40
+//    height *= deviceScaleFactor
 
     val screenshotOptions = ScreenshotOptions()
     //设置截图范围
     val clip = Clip(0.0, 0.0, 500.0, height)
     screenshotOptions.clip = clip
     //设置存放的路径
-    screenshotOptions.path = "test.png"
+    screenshotOptions.path = "test1.png"
 
 
     val currentTimeMillis = System.currentTimeMillis()
