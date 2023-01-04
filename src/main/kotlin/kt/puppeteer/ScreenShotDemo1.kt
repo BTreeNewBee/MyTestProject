@@ -5,6 +5,7 @@ import com.ruiyun.jvppeteer.core.browser.Browser
 import com.ruiyun.jvppeteer.core.browser.BrowserFetcher
 import com.ruiyun.jvppeteer.core.page.Page
 import com.ruiyun.jvppeteer.options.*
+import java.io.File
 
 
 fun main() {
@@ -17,6 +18,7 @@ fun main() {
     val page: Page = browser.newPage()
 //    page.goTo("https://www.baidu.com/?tn=98012088_10_dg&ch=3")
     page.goTo("D:\\nodejs\\ImageServer\\sort1.html")
+
 
 
     val deviceScaleFactor = 4.0
