@@ -16,6 +16,7 @@ import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
+import kotlin.random.Random
 
 
 fun main() {
@@ -43,51 +44,50 @@ fun main() {
 
     val template: Template = cfg.getTemplate("sort_template.html")
 
-    val root = getRankInfo()
 
     val threadPool = Executors.newFixedThreadPool(10)
 
-    for (x in 1 .. 20) {
+    val x = 10
 
-        val currentTimeMillis = System.currentTimeMillis()
-        val countDownLatch = CountDownLatch(x)
-        for (i in 1..x) {
-            threadPool.execute({
-                val file = File.createTempFile("wodeguigui$i", ".html")
-                FileOutputStream(file).use { fos ->
-                    OutputStreamWriter(fos).use { osw ->
-                        template.process(root, osw)
-                    }
+    val currentTimeMillis = System.currentTimeMillis()
+    val countDownLatch = CountDownLatch(x)
+    for (i in 1..x) {
+        threadPool.execute({
+            val root = getRankInfo()
+            val file = File.createTempFile("wodeguigui$i", ".html")
+            FileOutputStream(file).use { fos ->
+                OutputStreamWriter(fos).use { osw ->
+                    template.process(root, osw)
                 }
+            }
 
-                val page: Page = browser.newPage()
-                page.goTo(file.absolutePath)
+            val page: Page = browser.newPage()
+            page.goTo(file.absolutePath)
 
-                val deviceScaleFactor = 4.0
+            val deviceScaleFactor = 4.0
 
-                //set page size
-                page.setViewport(Viewport(500, 800, deviceScaleFactor, false, false, false))
+            //set page size
+            page.setViewport(Viewport(500, 800, deviceScaleFactor, false, false, false))
 
-                var height = 240.0
-                height += 40 * 6
-                height += 40
+            var height = 240.0
+            height += 40 * root.rankInfos.size
+            height += 20
 
-                val screenshotOptions = ScreenshotOptions()
-                //设置截图范围
-                val clip = Clip(0.0, 0.0, 500.0, height)
-                screenshotOptions.clip = clip
-                //设置存放的路径
-                screenshotOptions.path = "test$i.png"
+            val screenshotOptions = ScreenshotOptions()
+            //设置截图范围
+            val clip = Clip(0.0, 0.0, 500.0, height)
+            screenshotOptions.clip = clip
+            //设置存放的路径
+            screenshotOptions.path = "test${root.rankInfos.size}.png"
 
-                page.screenshot(screenshotOptions)
-                page.close()
-                countDownLatch.countDown()
-            })
-        }
-
-        countDownLatch.await()
-        println("截图量${x}用时${System.currentTimeMillis() - currentTimeMillis}")
+            page.screenshot(screenshotOptions)
+            page.close()
+            countDownLatch.countDown()
+        })
     }
+
+    countDownLatch.await()
+    println("截图量${x}用时${System.currentTimeMillis() - currentTimeMillis}")
 
     browser.close();
     threadPool.shutdown()
@@ -99,14 +99,20 @@ fun getRankInfo(): MessageRank {
     val datLeft = 350
     val date = "2020-01-01"
     val messageCount = 100
+    val nextInt = Random.nextInt(9)
     val arrayListOf = arrayListOf(
-        RankInfo(1, Base64.encode(FileUtil.readBytes("C:\\git\\java\\MyTestProject\\avatar1.bmp")), "傻逼爱抖露", 100),
-        RankInfo(2, Base64.encode(FileUtil.readBytes("C:\\git\\java\\MyTestProject\\avatar1.bmp")), "我的牛牛", 100),
-        RankInfo(3, Base64.encode(FileUtil.readBytes("C:\\git\\java\\MyTestProject\\avatar2.bmp")), "我的龟龟", 100),
-        RankInfo(4, Base64.encode(FileUtil.readBytes("C:\\git\\java\\MyTestProject\\avatar2.bmp")), "我的小牛牛", 100),
-        RankInfo(5, Base64.encode(FileUtil.readBytes("C:\\git\\java\\MyTestProject\\avatar2.bmp")), "傻逼倒爷", 100)
+        RankInfo(1, Base64.encode(FileUtil.readBytes("C:\\git\\java\\MyTestProject\\avatar1.bmp")), "傻逼爱抖露", 100)
     )
-
+    for (i in 1..nextInt) {
+        arrayListOf.add(
+            RankInfo(
+                i + 1,
+                Base64.encode(FileUtil.readBytes("C:\\git\\java\\MyTestProject\\avatar2.bmp")),
+                "傻逼爱抖露$i",
+                100
+            )
+        )
+    }
 
     val rate = datLeft / 365.0
     val hue = (120 * (1 - rate)).toInt()
