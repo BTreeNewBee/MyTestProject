@@ -41,6 +41,7 @@ dependencies {
     //compile "io.github.fanyong920:jvppeteer:1.1.5"
     implementation("io.github.fanyong920:jvppeteer:1.1.5")
     implementation("org.freemarker:freemarker:2.3.31")
+    implementation("org.jsoup:jsoup:1.15.3")
 }
 
 
