@@ -30,7 +30,7 @@ fun main() {
         pagenxtSelect = doc2.select("a[href].pagenxt")
         getCommunities(doc2, communities)
     }
-    CsvUtil.getWriter(File("D:\\$city-$county.csv"), Charset.forName("UTF-8")).write(communities)
+    CsvUtil.getWriter(File("D:\\$city-$county.csv"), Charset.forName("UTF-8")).writeBeans(communities)
 
 }
 
@@ -44,7 +44,7 @@ fun getCommunities(doc: Document, communities: MutableList<Community>) {
         val div_d = select.select("div.text").select("div.d")
         val addressDiv = div_d[1]
         var address = addressDiv.select("span").text()
-        address = formateAddress(address,name)
+        address = formateAddress(address, name)
         val href = addressDiv.select("a").attr("href")
         val m_bottom_10 = select.select("div.text").select("div.tags m_bottom_10")
         var type = "住宅"
@@ -52,7 +52,7 @@ fun getCommunities(doc: Document, communities: MutableList<Community>) {
             type = m_bottom_10.text()
         }
 //        println("name:$name,address:$address,href:$href,type:$type,price:$price")
-        val community = Community(name, address, href, type, price, null, null)
+        val community = Community(city, county, name, address, href, type, price, null, null)
 //        println(community)
         communities.add(community)
     }
@@ -62,8 +62,8 @@ fun formateAddress(address: String, name: String): String {
     val indexOf = address.indexOf("]")
     var address_new = address
         .substring(indexOf + 1)
-        .replace(city,"")
-        .replace(county,"")
+        .replace(city, "")
+        .replace(county, "")
         .replace("-", "")
         .replace("[", "")
         .replace("]", "")
@@ -71,17 +71,17 @@ fun formateAddress(address: String, name: String): String {
         .replace(".", "")
 
     address_new = city + county + address_new
-    if (address_new.indexOf("(")!=-1){
-        address_new = address_new.substring(0,address_new.indexOf("(")).replace(" ","")
+    if (address_new.indexOf("(") != -1) {
+        address_new = address_new.substring(0, address_new.indexOf("(")).replace(" ", "")
     }
-    if (address_new.indexOf("（")!=-1){
-        address_new = address_new.substring(0,address_new.indexOf("（")).replace(" ","")
+    if (address_new.indexOf("（") != -1) {
+        address_new = address_new.substring(0, address_new.indexOf("（")).replace(" ", "")
     }
-    if (address_new.indexOf("，")!=-1){
-        address_new = address_new.substring(0,address_new.indexOf("，")).replace(" ","")
+    if (address_new.indexOf("，") != -1) {
+        address_new = address_new.substring(0, address_new.indexOf("，")).replace(" ", "")
     }
-    if (address_new.indexOf(",")!=-1){
-        address_new = address_new.substring(0,address_new.indexOf(",")).replace(" ","")
+    if (address_new.indexOf(",") != -1) {
+        address_new = address_new.substring(0, address_new.indexOf(",")).replace(" ", "")
     }
 
     return address_new + name
@@ -89,6 +89,8 @@ fun formateAddress(address: String, name: String): String {
 
 
 data class Community(
+    val city: String,
+    val county: String,
     val name: String,
     val address: String,
     val href: String,
