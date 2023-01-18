@@ -96,18 +96,19 @@ data class Community(
     val href: String,
     val type: String,
     val price: String,
-    val detailInfo: DetailInfo?,
-    val aroundInfo: AroundInfo?,
+    var detailInfo: DetailInfo?,
+    var aroundInfo: AroundInfo?,
 )
 
 
 data class DetailInfo(
     val propertyFee: String,
     val constructionArea: String,
-    val households: Int,
+    val households: String,
     val buildDate: String,
     val parking: String,
-    val plotRatio: Double
+    val plotRatio: String,
+    val greeningRate: String,
 )
 
 
