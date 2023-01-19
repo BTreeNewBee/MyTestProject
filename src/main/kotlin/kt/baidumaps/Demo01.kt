@@ -1,4 +1,4 @@
-package iguigui.baidumaps
+package kt.baidumaps
 
 import cn.hutool.http.HttpUtil
 

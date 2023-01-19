@@ -1,6 +1,7 @@
 package kt.spider
 
 import cn.hutool.core.text.csv.CsvUtil
+import kotlinx.serialization.SerialName
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
@@ -30,6 +31,7 @@ fun main() {
         pagenxtSelect = doc2.select("a[href].pagenxt")
         getCommunities(doc2, communities)
     }
+    getCommunitiesDetail(communities)
     CsvUtil.getWriter(File("D:\\$city-$county.csv"), Charset.forName("UTF-8")).writeBeans(communities)
 
 }
@@ -52,7 +54,7 @@ fun getCommunities(doc: Document, communities: MutableList<Community>) {
             type = m_bottom_10.text()
         }
 //        println("name:$name,address:$address,href:$href,type:$type,price:$price")
-        val community = Community(city, county, name, address, href, type, price, null, null)
+        val community = Community(city, county, name, address, href, type, price)
 //        println(community)
         communities.add(community)
     }
@@ -96,20 +98,26 @@ data class Community(
     val href: String,
     val type: String,
     val price: String,
-    var detailInfo: DetailInfo?,
-    var aroundInfo: AroundInfo?,
+
+    var aroundInfo: AroundInfo? = null,
+
+    var longitude: Double = 0.0,
+    var latitude: Double = 0.0,
+    var comprehension: Int = 0,
+    var confidence: Int = 0,
+    var level: String = "",
+    var precise: Int = 0,
+
+    var propertyFee: String = "",
+    var constructionArea: String = "",
+    var households: String = "",
+    var buildDate: String = "",
+    var parking: String = "",
+    var plotRatio: String = "",
+    var greeningRate: String = "",
+
 )
 
-
-data class DetailInfo(
-    val propertyFee: String,
-    val constructionArea: String,
-    val households: String,
-    val buildDate: String,
-    val parking: String,
-    val plotRatio: String,
-    val greeningRate: String,
-)
 
 
 data class AroundInfo(
