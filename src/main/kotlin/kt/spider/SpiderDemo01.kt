@@ -121,14 +121,7 @@ data class Community(
 
 
 data class AroundInfo(
-    val bus: List<MapDetail>,
-    val metro: List<MapDetail>,
-    val school: List<MapDetail>,
-    val hospital: List<MapDetail>,
-    val bank: List<MapDetail>,
-    val market: List<MapDetail>,
-    val restaurant: List<MapDetail>,
-    val park: List<MapDetail>
+    val info:Map<String,List<MapDetail>>,
 )
 
 data class MapDetail(

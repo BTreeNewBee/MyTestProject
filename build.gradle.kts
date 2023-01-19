@@ -18,7 +18,7 @@ repositories {
 }
 
 javafx {
-    modules("javafx.controls","javafx.swing")
+    modules("javafx.controls", "javafx.swing")
 }
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
@@ -27,12 +27,12 @@ dependencies {
     implementation("com.alibaba:easyexcel:3.0.5")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jsoup:jsoup:1.14.3")
-    implementation ("cn.hutool:hutool-all:5.7.22")
+    implementation("cn.hutool:hutool-all:5.7.22")
     implementation("com.alibaba:fastjson:1.2.79")
     implementation("top.yumbo.music:yumbo-music-utils:1.2.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     implementation("org.reflections:reflections:0.10.2")
-    implementation( "org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
     //网易云client
     implementation("top.yumbo.music:yumbo-music-utils:1.2.3")
     //JNA
@@ -42,6 +42,13 @@ dependencies {
     implementation("io.github.fanyong920:jvppeteer:1.1.5")
     implementation("org.freemarker:freemarker:2.3.31")
     implementation("org.jsoup:jsoup:1.15.3")
+
+
+//doyaaaaaken's kotlin-csv
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+//kotlin-grass
+    implementation("io.github.blackmo18:kotlin-grass-core-jvm:1.0.0")
+    implementation("io.github.blackmo18:kotlin-grass-parser-jvm:0.8.0")
 }
 
 
