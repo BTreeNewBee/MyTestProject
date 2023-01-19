@@ -126,8 +126,8 @@ data class AroundInfo(
 
 data class MapDetail(
     val name: String,
-    val distance: Int,
-    val detail: String,
+    val distance: Double,
+//    val detail: String,
     val type: String,
     val longitude: Double,
     val latitude: Double,
