@@ -20,12 +20,12 @@ data class ResultX(
     val location: LocationXX,
     @SerialName("name")
     val name: String,
-    @SerialName("province")
-    val province: String,
-    @SerialName("street_id")
-    val streetId: String,
-    @SerialName("telephone")
-    val telephone: String,
-    @SerialName("uid")
-    val uid: String
+//    @SerialName("province")
+//    val province: String,
+//    @SerialName("street_id")
+//    val streetId: String,
+//    @SerialName("telephone")
+//    val telephone: String,
+//    @SerialName("uid")
+//    val uid: String
 )

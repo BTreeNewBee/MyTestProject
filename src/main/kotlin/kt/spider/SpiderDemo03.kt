@@ -3,37 +3,49 @@ package kt.spider
 import cn.hutool.core.io.FileUtil
 import cn.hutool.core.text.csv.CsvUtil
 import cn.hutool.http.HttpUtil
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import io.blackmo18.kotlin.grass.dsl.grass
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.int
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.*
+import org.springframework.http.codec.json.Jackson2JsonEncoder
 import java.io.File
 import java.io.FileReader
 import java.nio.charset.Charset
 
 @OptIn(ExperimentalStdlibApi::class)
 fun main() {
-//    val csvContents = csvReader().readAllWithHeader(FileUtil.file("D:\\中山市-火炬区.csv"))
-//    val dataClasses = grass<Community>().harvest(csvContents)
-//    dataClasses.forEach { communit ->
-//        searchList.forEach {
-//            getMapDetailList(it.type,it.radius,"${communit.latitude},${communit.longitude}")
-//        }
-//    }
 
-    getMapDetailList("科兴科学园", 500, "22.5301,113.938")
+    val csvContents = csvReader().readAllWithHeader(FileUtil.file("D:\\中山市-火炬区1.csv"))
+    val dataClasses = grass<Community>().harvest(csvContents)
+    dataClasses.forEach { communit ->
+        val aroundInfo = AroundInfo(mutableMapOf())
+        searchList.forEach {
+            val mapDetailList = getMapDetailList(it.type, it.radius, "${communit.latitude},${communit.longitude}")
+            aroundInfo.info[it.type] = mapDetailList
+        }
+        communit.aroundInfo = aroundInfo
+    }
 
-    val lng1 = 113.8967227936
-    val lat1 = 22.5610342910
-    val lng2 = 113.9388656616
-    val lat2 = 22.5511657963
-    val distance = getDistance(lng1, lat1, lng2, lat2)
-    println(distance)
+    //use jackson encode list to array
+    val objectMapper = ObjectMapper()
+
+//    val writer = CsvUtil.getWriter(File("D:\\中山市-火炬区-周边.csv"), Charset.forName("UTF-8"))
+    FileUtil.del("D:\\中山市-火炬区-周边.csv")
+    val file1 = FileUtil.file("D:\\中山市-火炬区-周边.csv")
+    file1.createNewFile()
+    dataClasses.forEach {
+        file1.appendText(objectMapper.writeValueAsString(it) + "\n")
+    }
+
+
+
 
 }
 
+
+val json = Json {
+    ignoreUnknownKeys = true
+}
 
 fun getMapDetailList(query: String, radius: Int, location: String): List<MapDetail> {
     val url = "https://api.map.baidu.com/place/v2/search"
@@ -57,19 +69,16 @@ fun getMapDetailList(query: String, radius: Int, location: String): List<MapDeta
         println("请求失败")
         return emptyList()
     }
-    val searchResult = Json.decodeFromJsonElement(MapSearchResult.serializer(), parseToJsonElement)
-
-    searchResult.results.forEach {
-        val distance = getDistance(
-            it.location.lat,
-            it.location.lng,
-            location.split(",")[0].toDouble(),
-            location.split(",")[1].toDouble()
-        )
-        MapDetail(it.name, distance, it.detailInfo.tag, it.detailInfo.naviLocation.lng, it.detailInfo.naviLocation.lat)
+    val searchResult = json.decodeFromJsonElement(MapSearchResult.serializer(), parseToJsonElement)
+    return searchResult.results.map {
+//        val distance = getDistance(
+//            it.location.lat,
+//            it.location.lng,
+//            location.split(",")[0].toDouble(),
+//            location.split(",")[1].toDouble()
+//        )
+        MapDetail(it.name, it.detailInfo.distance, it.detailInfo.tag, it.location.lng, it.location.lat)
     }
-
-    return emptyList()
 }
 
 //计算两个经纬度之间的距离

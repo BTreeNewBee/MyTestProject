@@ -2,6 +2,7 @@ package kt.spider
 
 import cn.hutool.core.text.csv.CsvUtil
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
@@ -89,7 +90,6 @@ fun formateAddress(address: String, name: String): String {
     return address_new + name
 }
 
-
 data class Community(
     val city: String,
     val county: String,
@@ -98,16 +98,13 @@ data class Community(
     val href: String,
     val type: String,
     val price: String,
-
     var aroundInfo: AroundInfo? = null,
-
     var longitude: Double = 0.0,
     var latitude: Double = 0.0,
     var comprehension: Int = 0,
     var confidence: Int = 0,
     var level: String = "",
     var precise: Int = 0,
-
     var propertyFee: String = "",
     var constructionArea: String = "",
     var households: String = "",
@@ -115,18 +112,17 @@ data class Community(
     var parking: String = "",
     var plotRatio: String = "",
     var greeningRate: String = "",
-
 )
-
 
 
 data class AroundInfo(
-    val info:Map<String,List<MapDetail>>,
+    var info:MutableMap<String,List<MapDetail>>,
 )
+
 
 data class MapDetail(
     val name: String,
-    val distance: Double,
+    val distance: Int,
 //    val detail: String,
     val type: String,
     val longitude: Double,
