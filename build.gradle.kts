@@ -49,6 +49,8 @@ dependencies {
 //kotlin-grass
     implementation("io.github.blackmo18:kotlin-grass-core-jvm:1.0.0")
     implementation("io.github.blackmo18:kotlin-grass-parser-jvm:0.8.0")
+    //  implementation 'org.mongodb:mongodb-driver-sync:4.8.2'
+    implementation("org.mongodb:mongodb-driver-sync:4.2.3")
 }
 
 

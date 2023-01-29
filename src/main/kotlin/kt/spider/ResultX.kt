@@ -26,6 +26,6 @@ data class ResultX(
 //    val streetId: String,
 //    @SerialName("telephone")
 //    val telephone: String,
-//    @SerialName("uid")
-//    val uid: String
+    @SerialName("uid")
+    val uid: String
 )

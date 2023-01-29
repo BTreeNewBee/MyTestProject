@@ -17,7 +17,7 @@ data class DetailInfo(
     @SerialName("distance")
     val distance: Int,
     @SerialName("tag")
-    val tag: String,
+    val tag: String = "",
 //    @SerialName("facility_rating")
 //    val facilityRating: String,
 //    @SerialName("favorite_num")

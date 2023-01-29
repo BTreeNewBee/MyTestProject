@@ -117,10 +117,12 @@ data class Community(
 
 data class AroundInfo(
     var info:MutableMap<String,List<MapDetail>>,
+    var count:MutableMap<String,Int>,
 )
 
 
 data class MapDetail(
+    val uid: String,
     val name: String,
     val distance: Int,
 //    val detail: String,

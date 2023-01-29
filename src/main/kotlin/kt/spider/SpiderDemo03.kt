@@ -15,13 +15,14 @@ import java.nio.charset.Charset
 @OptIn(ExperimentalStdlibApi::class)
 fun main() {
 
-    val csvContents = csvReader().readAllWithHeader(FileUtil.file("D:\\中山市-火炬区1.csv"))
+    val csvContents = csvReader().readAllWithHeader(FileUtil.file("D:\\中山市-火炬区.csv"))
     val dataClasses = grass<Community>().harvest(csvContents)
     dataClasses.forEach { communit ->
-        val aroundInfo = AroundInfo(mutableMapOf())
+        val aroundInfo = AroundInfo(mutableMapOf(), mutableMapOf())
         searchList.forEach {
-            val mapDetailList = getMapDetailList(it.type, it.radius, "${communit.latitude},${communit.longitude}")
-            aroundInfo.info[it.type] = mapDetailList
+            val pair = getMapDetailList(it.type, it.radius, "${communit.latitude},${communit.longitude}")
+            aroundInfo.info[it.type] = pair.first
+            aroundInfo.count[it.type] = pair.second
         }
         communit.aroundInfo = aroundInfo
     }
@@ -38,8 +39,6 @@ fun main() {
     }
 
 
-
-
 }
 
 
@@ -47,14 +46,14 @@ val json = Json {
     ignoreUnknownKeys = true
 }
 
-fun getMapDetailList(query: String, radius: Int, location: String): List<MapDetail> {
+fun getMapDetailList(query: String, radius: Int, location: String): Pair<List<MapDetail>, Int> {
     val url = "https://api.map.baidu.com/place/v2/search"
     val map: MutableMap<String, Any> = mutableMapOf()
     map["radius_limit"] = "false"
     map["output"] = "json"
     map["scope"] = "2"
     map["filter"] = "sort_name:distance;sort_rule:1"
-    map["page_size"] = "10"
+    map["page_size"] = "20"
     map["page_num"] = "0"
     map["ak"] = "52RquM9kvK6uHWqypFQUL3iHwsXAA9Nn"
     map["query"] = query
@@ -67,18 +66,12 @@ fun getMapDetailList(query: String, radius: Int, location: String): List<MapDeta
     val int = parseToJsonElement.jsonObject["status"]?.jsonPrimitive?.int
     if (int != 0) {
         println("请求失败")
-        return emptyList()
+        return Pair(emptyList(), 0)
     }
     val searchResult = json.decodeFromJsonElement(MapSearchResult.serializer(), parseToJsonElement)
-    return searchResult.results.map {
-//        val distance = getDistance(
-//            it.location.lat,
-//            it.location.lng,
-//            location.split(",")[0].toDouble(),
-//            location.split(",")[1].toDouble()
-//        )
-        MapDetail(it.name, it.detailInfo.distance, it.detailInfo.tag, it.location.lng, it.location.lat)
-    }
+    return Pair(searchResult.results.map {
+        MapDetail(it.uid, it.name, it.detailInfo.distance, it.detailInfo.tag, it.location.lng, it.location.lat)
+    }, searchResult.total)
 }
 
 //计算两个经纬度之间的距离
@@ -101,7 +94,12 @@ fun getDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double 
 }
 
 
-data class PoiType(val type: String, val radius: Int)
+data class PoiType(
+    val type: String,
+    val radius: Int,
+    val coefficient: Double,
+    val maxScore: Double,
+)
 
 
 /**
@@ -119,15 +117,15 @@ val park: List<MapDetail>
  */
 
 val searchList = listOf(
-//    PoiType("美食",1000),
-//    PoiType("购物",2000),
-//    PoiType("生活服务",1000),
-//    PoiType("旅游景点",1000),
-//    PoiType("幼儿园",1000),
-//    PoiType("小学",2000),
-//    PoiType("中学",3000),
-//    PoiType("医疗",5000),
+    PoiType("美食", 1000, 0.5, 10.0),
+    PoiType("购物", 2000, 0.5, 10.0),
+    PoiType("生活服务", 1000, 0.5, 10.0),
+    PoiType("旅游景点", 1000, 0.5, 10.0),
+    PoiType("幼儿园", 1000, 1.0, 10.0),
+    PoiType("小学", 2000, 2.0, 10.0),
+    PoiType("中学", 3000, 3.0, 10.0),
+    PoiType("医疗", 5000, 0.5, 10.0),
 //    PoiType("火车站",10000),
-//    PoiType("地铁站",2000),
-    PoiType("公交车站", 1000),
+    PoiType("地铁站", 2000, 5.0, 10.0),
+    PoiType("公交车站", 1000, 1.0, 10.0),
 )
