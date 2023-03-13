@@ -51,6 +51,14 @@ dependencies {
     implementation("io.github.blackmo18:kotlin-grass-parser-jvm:0.8.0")
     //  implementation 'org.mongodb:mongodb-driver-sync:4.8.2'
     implementation("org.mongodb:mongodb-driver-sync:4.2.3")
+    //Guava
+    implementation("com.google.guava:guava:30.1.1-jre")
+
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    //
+    implementation("com.squareup.moshi:moshi:1.14.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+
 }
 
 

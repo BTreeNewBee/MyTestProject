@@ -3,14 +3,18 @@ package kt.spider
 import cn.hutool.core.text.csv.CsvUtil
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kt.mongodbs.computeScore
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
 import java.nio.charset.Charset
 
-val urlStr = "https://zs.loupan.com/community/huoju/"
-val city = "中山市"
+//val urlStr = "https://nn.loupan.com/community/"
+//val city = "中山市"
 
+
+val urlStr = "https://nn.loupan.com/community/jiangnanqu/"
+val city = "南宁市"
 
 var county = ""
 
@@ -32,9 +36,13 @@ fun main() {
         pagenxtSelect = doc2.select("a[href].pagenxt")
         getCommunities(doc2, communities)
     }
+    println("爬取完毕, 共爬取${communities.size}个小区,正在爬取小区详情")
     getCommunitiesDetail(communities)
     CsvUtil.getWriter(File("D:\\$city-$county.csv"), Charset.forName("UTF-8")).writeBeans(communities)
-
+    println("正在查询周边设施情况")
+    getGeoDetail("$city-$county")
+    println("查询完毕")
+    computeScore("$city-$county")
 }
 
 
@@ -72,6 +80,7 @@ fun formateAddress(address: String, name: String): String {
         .replace("]", "")
         .replace(" ", "")
         .replace(".", "")
+        .replace("|", "")
 
     address_new = city + county + address_new
     if (address_new.indexOf("(") != -1) {
@@ -103,15 +112,15 @@ data class Community(
     var latitude: Double = 0.0,
     var comprehension: Int = 0,
     var confidence: Int = 0,
-    var level: String = "",
+    var level: String? = "",
     var precise: Int = 0,
-    var propertyFee: String = "",
-    var constructionArea: String = "",
-    var households: String = "",
-    var buildDate: String = "",
-    var parking: String = "",
-    var plotRatio: String = "",
-    var greeningRate: String = "",
+    var propertyFee: String? = "",
+    var constructionArea: String? = "",
+    var households: String? = "",
+    var buildDate: String? = "",
+    var parking: String? = "",
+    var plotRatio: String? = "",
+    var greeningRate: String? = "",
 )
 
 

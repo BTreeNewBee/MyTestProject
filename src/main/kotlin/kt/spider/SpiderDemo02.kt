@@ -2,6 +2,7 @@ package kt.spider
 
 import cn.hutool.core.text.csv.CsvUtil
 import cn.hutool.http.HttpUtil
+import com.google.common.util.concurrent.RateLimiter
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
@@ -11,24 +12,34 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
 import java.nio.charset.Charset
+import java.util.concurrent.TimeUnit
 
 
 fun main() {
 
-    val s = "{\"status\":0,\"result\":{\"location\":{\"lng\":113.49474012297535,\"lat\":22.539487844686876},\"precise\":1,\"confidence\":70,\"comprehension\":100,\"level\":\"地产小区\"}}"
-    val json = Json.parseToJsonElement(s)
-    val status = json.jsonObject["status"]?.jsonPrimitive?.int
-    if (status != 0) {
-        return
-    }
-    val geocoding = Json.decodeFromJsonElement(Geocoding.serializer(), json)
-
+    getGeoDetail("南宁市-西乡塘区")
+//    val function = returnFun()
+//    val function2 = returnFun()
+//    println(function()) // 0
+//    println(function()) // 1
+//    println(function()) // 2
+//
+//    println(function2()) // 0
+//    println(function2()) // 1
+//    println(function2()) // 2
 }
+
+
+fun returnFun(): () -> Int {
+    var count = 0
+    return { count++ }
+}
+
+
 
 fun getCommunitiesDetail(communities: MutableList<Community>) {
 
-    communities.forEach {
-        println(it)
+    communities.parallelStream().forEach {
         val doc: Document = Jsoup.connect(it.href).get()
         val select = doc.select("div.infoBox").select("ul").select("li")
         val propertyFee = select[1].select("span.text_nr").text().replace("元","")
@@ -49,7 +60,8 @@ fun getCommunitiesDetail(communities: MutableList<Community>) {
         val json = Json.parseToJsonElement(result)
         val status = json.jsonObject["status"]?.jsonPrimitive?.int
         if (status != 0) {
-            return
+            println("error")
+            return@forEach
         }
         val geocoding = Json.decodeFromJsonElement(Geocoding.serializer(), json)
         geocoding.result.apply {
