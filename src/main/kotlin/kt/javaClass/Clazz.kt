@@ -13,23 +13,16 @@ import javax.imageio.ImageIO
 
 
 fun main() {
-    var s: String = ""
 
-    var a = 1
+    func("yes")
 
-    println(s.javaClass.isAssignableFrom(Comparable::class.java))
+}
 
-    val image: BufferedImage = ImageIO.read(
-        File("C:\\bot\\template.png")
-    )
 
-    val g = image.graphics
-    g.font = g.font.deriveFont(30f)
+operator fun Any.invoke() {
+    println("invoke")
+}
 
-    g.drawString("测试测试\n我的龟龟123\n我的我的", 100, 100)
-
-    g.dispose()
-
-    ImageIO.write(image, "png", File("C:\\bot\\2.png"))
-
+fun func(any:Any){
+    any()
 }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
-    coroutineScope {
+    repeat(10) {
         launch {
             delay(4000)
             println("World1!")
