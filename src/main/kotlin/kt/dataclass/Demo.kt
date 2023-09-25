@@ -15,6 +15,12 @@ import kotlin.reflect.KClass
 
 fun main() {
 
+    val oneToTen = 1 .. 10
+    for (i in oneToTen) {
+        println(i)
+    }
+
+
     val list = object : ArrayList<String>() {
         internal var a = "1"
         init {

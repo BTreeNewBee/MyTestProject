@@ -51,20 +51,22 @@ fun main() {
 
     strList = str.split("\n")
 
-    var fontSize = 80f
+    var fontSize = 40f
 
-    val deriveFont =
-        Font.createFont(Font.TRUETYPE_FONT, File("D:\\font\\SourceHanSansHWSC-Regular.otf")).deriveFont(fontSize)
-    val fontMetrics = BufferedImage(1, 1, TYPE_INT_RGB).createGraphics().getFontMetrics(deriveFont)
+//    val deriveFont =
+//        Font.createFont(Font.TRUETYPE_FONT, File("D:\\font\\SourceHanSansHWSC-Regular.otf")).deriveFont(fontSize)
+//    val fontMetrics = BufferedImage(1, 1, TYPE_INT_RGB).createGraphics().getFontMetrics(deriveFont)
+//
+//    var width = strList.map { it.width(fontMetrics) }.maxByOrNull { it } ?: 0
+//    width += (fontSize * 2f).toInt()
+//    val height = (strList.size * fontSize * 1.5 + fontSize).toInt()
 
-    var width = strList.map { it.width(fontMetrics) }.maxByOrNull { it } ?: 0
-    width += (fontSize * 2f).toInt()
-    val height = (strList.size * fontSize * 1.5 + fontSize).toInt()
-
+    var width = 406
+    var height = 1000
 
     var image = BufferedImage(width, height, TYPE_INT_RGB)
     val g = image.createGraphics()
-    g.font = deriveFont
+//    g.font = deriveFont
 
     //fill as white
     g.fillRect(0, 0, width, height)
@@ -74,9 +76,9 @@ fun main() {
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
     g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
     var tmpY = fontSize * 1.5f
-    var yStep = fontSize * 1.5f
+    var yStep = fontSize
     strList.forEach {
-        val tl = TextLayout(it, deriveFont, g.fontRenderContext)
+        val tl = TextLayout(it, g.font, g.fontRenderContext)
         tl.draw(g, fontSize, tmpY)
         tmpY += yStep
 //        yStep += 10
@@ -84,7 +86,7 @@ fun main() {
 
     g.dispose()
 
-    ImageIO.write(image, "png", File("D:\\bot\\2.png"))
+    ImageIO.write(image, "png", File("C:\\bot\\2.png"))
 
 
 

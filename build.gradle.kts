@@ -60,6 +60,10 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     //JCommander
     implementation("com.beust:jcommander:1.82")
+    //    implementation 'org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r' // 使用最新版本
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r")
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("uk.org.okapibarcode:okapibarcode:0.4.1")
 
 }
 
