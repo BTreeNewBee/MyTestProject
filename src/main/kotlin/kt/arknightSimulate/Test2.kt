@@ -5,7 +5,7 @@ package kt.arknightSimulate
 import java.util.*
 
 
-//招聘单价
+//招聘单价，第一个为1小时0分钟，第二个为1小时10分钟，以此类推到9小时
 val array1 = arrayOf(
     140, 143, 147, 150, 154, 157,
     161, 164, 168, 171, 175, 178,
@@ -19,36 +19,51 @@ val array1 = arrayOf(
 )
 
 
+//小时分钟选几个tag等于多少钱
 data class Recruit(val hour: Int, val minute: Int, val tags: Int, val price: Int)
 
 
 fun main() {
     val mutableListOf = mutableListOf<Recruit>()
     var minute = 60
+    //把每个不同时间的招聘单价都丢进去
     array1.forEach {
         mutableListOf.add(Recruit(minute / 60, minute % 60, 0, it))
         minute += 10
     }
 
     val mutableListOf2 = mutableListOf<Recruit>()
+    //再把每个时间拼1-3个tag的招聘单价都丢进去
     mutableListOf.forEach { recruit ->
         repeat(4) { tag ->
             mutableListOf2.add(Recruit(recruit.hour, recruit.minute, tag, recruit.price + tag * 70))
         }
     }
+
+    //得到了一个完整的招聘单价列表
     mutableListOf2.forEach {
 //        println("公招${it.hour}小时${it.minute}分钟，选${it.tags}个tag需要${it.price}龙门币")
     }
+
+    //把招聘单价列表转成map，方便后面查找
     val intRecruitMap = mutableListOf2.associateBy { it.price }
     val array = mutableListOf2.map { it.price }.sorted().toIntArray()
 
+    //初始化完成，下面是计算过程
+
+    //要凑的钱
     val money = 999
 
+
+    //凑硬币算法，参考https://leetcode-cn.com/problems/coin-change/solution/322-ling-qian-dui-huan-by-leetcode-solution/
+    //区别就是这里需要记录每个硬币的招聘配置
     val result = coinChange(array, money, IntArray(money), Array(money) { emptyList() })
     if (result.first == -1) {
         println("无法凑出${money}龙门币")
     }
+
     println("希望把${money}龙门币刚刚好花完，最少需要${result.first}次公招，分别是以下配置")
+
     result.second.map { intRecruitMap[it] }.forEach {
         if (it != null) {
             println("公招${it.hour}小时${it.minute}分钟，选${it.tags}个tag需要${it.price}龙门币")
